@@ -16,8 +16,12 @@ void setup() {
   
   // fill up our array with one period of the cosine/sine
   for (int i = 0; i < degrees; i++) {
-    cos_vals[i] = cos(TWO_PI/degrees * i);
-    sin_vals[i] = sin(TWO_PI/degrees * i);
+    float factor; // let's play arround with the factor f.e.: comment/uncomment below
+    //factor = map(i, 0, degrees-1, 0, 1);
+    factor = 1.0;
+    
+    cos_vals[i] = cos(TWO_PI/degrees * i) * factor;
+    sin_vals[i] = sin(TWO_PI/degrees * i) * factor;
   }
 }
 
