@@ -47,7 +47,7 @@ void setup() {
 void draw() {
   fill(255, 0, 0);
   stroke(0, 255, 0);
-  strokeWeight(5);
+  strokeWeight(10);
   
   if (video.available()) {
     video.read(); // Read a new video frame
@@ -98,17 +98,30 @@ void draw() {
     arraycopy(binaryimage.pixels, scaledimage.pixels);
     scaledimage.updatePixels();
     scaledimage.filter(THRESHOLD);
-    scaledimage.resize(width/4, height/4);
+    scaledimage.filter(BLUR,0.5);
+    scaledimage.resize(width/4, height/4); // scale down by 4
     
     // Spinup the blob detector
     blobdetector.imageFindBlobs(scaledimage);
     blobdetector.loadBlobsFeatures();
-    // Computes the blob center of mass.
+    blobdetector.weightBlobs(true);
     blobdetector.findCentroids();
     
-    // Draw the blobs centroid to screen, for each blob in the image..
+    // Draw the blob centroids to screen
+    
+    /* following would draw all detected blob centroids
     for(int i = 0; i < blobdetector.getBlobsNumber(); i++) {
-      point(blobdetector.getCentroidX(i) * 4, blobdetector.getCentroidY(i)*4);
+      float centroidX = blobdetector.getCentroidX(i) * 4; // we need to scaleup again
+      float centroidY = blobdetector.getCentroidY(i) * 4; // remember we scale down th input image
+      point(centroidX, centroidY);
+    }
+    */
+    
+    // but   we are only interested in the most 'importyant' blob centroid
+    if (blobdetector.getBlobsNumber() > 0) {
+      float centroidX = blobdetector.getCentroidX(0) * 4; // we need to scaleup again
+      float centroidY = blobdetector.getCentroidY(0) * 4; // remember we scale down th input image
+      point(centroidX, centroidY);
     }
   }
 }
