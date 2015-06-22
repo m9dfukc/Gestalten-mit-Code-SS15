@@ -6,6 +6,7 @@
  * Adapt the threshold value to your need.
  *
  * Requires to install the 'blobscanner' library via 'sketch/Import Library/Add Library'
+ * for reference check the examples https://github.com/robdanet/blobscanner
  */
 
 
